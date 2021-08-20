@@ -1,39 +1,38 @@
 package com.bsc.leetcode;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
 
-class Employee {
-    public int id;
-    public int importance;
-    public List<Integer> subordinates;
-
-    public Employee(int id, int importance, List<Integer> subordinates) {
-        this.id = id;
-        this.importance = importance;
-        this.subordinates = subordinates;
-    }
-}
 public class Solution {
     public static void main(String[] args) {
-        List<Employee> list = new ArrayList<>();
+        Solution solution = new Solution();
+        String[] banned = {"hit"};
+        solution.mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.",banned);
     }
-    public int getImportance(List<Employee> employees, int id) {
-        int count = 0;
-        HashMap<Integer, Employee> map = new HashMap<>();
-        for (Employee em : employees) {
-            map.put(em.id, em);
+    public String mostCommonWord(String paragraph, String[] banned) {
+        HashSet<String> bannedSet = new HashSet<>();
+        HashMap<String,Integer> map = new HashMap<>();
+        for (String str : banned){
+            bannedSet.add(str);
         }
-        return getCount(map,id);
-    }
-    public int getCount(Map<Integer,Employee> map,int id){
-        Employee employee = map.get(id);
-        int count = employee.importance;
-        for (Integer subordinate : employee.subordinates) {
-            count += getCount(map,subordinate);
+        String ans = "";
+        int maxLength = 0;
+        StringBuilder sb  = new StringBuilder();
+        for (char c:paragraph.toCharArray()){
+            if (Character.isLetter(c)){
+                sb.append(Character.toLowerCase(c));
+            }else if (sb.length()>0){
+                String finalWord = sb.toString();
+                if (!bannedSet.contains(finalWord)){
+                    map.put(finalWord,map.getOrDefault(finalWord,0)+1);
+                    if (map.get(finalWord)>maxLength){
+                        ans = finalWord;
+                        maxLength = map.get(finalWord);
+                    }
+                }
+                sb = new StringBuilder();
+            }
         }
-        return count;
+        return ans;
     }
 }
