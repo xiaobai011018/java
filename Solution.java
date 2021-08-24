@@ -1,64 +1,71 @@
 package com.bsc.leetcode;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 
 public class Solution {
-
-    public int[] numSmallerByFrequency(String[] queries, String[] words) {
-        int[] count = new int[12];
-        for (String word:words)
-            count[counts(word)]++;
-        //计算后缀和，现在count[i]表示最小字母出现次数大于或等于i的单词总数。
-        for (int i=9;i>=0;i--)
-            count[i]+=count[i+1];
-        //结果数组
-        int[] result = new int[queries.length];
-        //遍历queries中的每个字符串，利用前面计算得到的count数组，可以直接得到答案。
-        for (int i=0;i<queries.length;i++)
-            result[i]=count[counts(queries[i])+1];
-        return result;
-    }
-
-    //counts方法用于统计字符串s中最小字母出现的次数
-    private int counts(String s){
-        char c = s.charAt(0);
-        int count = 1;
-        for (int i=1;i<s.length();i++){
-            char temp = s.charAt(i);
-            if (temp==c)
-                count++;
-            else if (temp<c){
-                c=temp;
-                count=1;
-            }
-        }
-        return count;
-    }
-    public String mostCommonWord(String paragraph, String[] banned) {
-        HashSet<String> bannedSet = new HashSet<>();
-        HashMap<String,Integer> map = new HashMap<>();
-        for(String banWord:banned){
-            bannedSet.add(banWord);
-        }
-        int ansNums = 0;
-        String ansWord = "";
-        StringBuilder sb = new StringBuilder();
-        for(Character c:paragraph.toCharArray()){
-            if (Character.isLetter(c)){
-                sb.append(Character.toLowerCase(c));
-            }else if (sb.length()>0){
-                String finalWord = sb.toString();
-                if (!bannedSet.contains(finalWord)){
-                    map.put(finalWord,map.getOrDefault(finalWord,0)+1);
-                    if (map.get(finalWord)>ansNums){
-                        ansNums = map.get(finalWord);
-                        ansWord = finalWord;
+    public boolean isValidSudoku2(char[][] board) {
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] box = new boolean[9][9];
+        for(int i = 0;i<board.length;i++){
+            for(int j = 0;j<board[i].length;j++){
+                if(board[i][j]!=','){
+                    int num = board[i][j] - '1';
+                    int boxIndex = (i/3)*3+ j/3;
+                    if(row[i][num]||col[j][num]||box[boxIndex][num]){
+                        return false;
                     }
+                    row[i][num] = true;
+                    col[j][num] = true;
+                    box[boxIndex][num] = true;
                 }
-                sb = new StringBuilder();
             }
         }
-        return ansWord;
+        return true;
+    }
+    public boolean isValidSudoku1(char[][] board) {
+        Map<Character,Integer> colMap = new HashMap<>();
+        Map<Character,Integer> rowMap = new HashMap<>();
+//        colMap.put(colMap.get)
+        for(int i = 0;i<board.length;i++){
+            for(int j = 0;j<board[i].length;j++){
+                if(rowMap.containsKey(board[i][j])){
+                    return false;
+                }else{
+                    rowMap.put(board[i][j],0);
+                }
+            }
+        }
+        for(int i = 0;i<board[0].length;i++){
+            for(int j = 0;j<board.length;j++){
+                if(colMap.containsKey(board[j][i])){
+                    return false;
+                }else{
+                    colMap.put(board[j][i],0);
+                }
+            }
+        }
+        for(int i = 0;i<board.length;i += 3){
+            for(int j = 0;j<board[i].length;j += 3){
+                if(!check(board,i,j)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    private boolean check(char[][] board,int col,int row){
+        Map<Character,Integer> map = new HashMap<>();
+        for(int i = row;i<row+3;i++){
+            for(int j = col;j<col+3;j++){
+                if(map.containsKey(board[i][j])){
+                    return false;
+                }else{
+                    map.put(board[i][j],0);
+                }
+            }
+        }
+        return true;
     }
 }
