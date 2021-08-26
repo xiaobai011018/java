@@ -1,10 +1,12 @@
 package com.bsc.leetcode;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Solution {
     public boolean isValidSudoku2(char[][] board) {
+        
         boolean[][] row = new boolean[9][9];
         boolean[][] col = new boolean[9][9];
         boolean[][] box = new boolean[9][9];
