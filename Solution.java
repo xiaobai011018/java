@@ -1,73 +1,24 @@
 package com.bsc.leetcode;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Solution {
-    public boolean isValidSudoku2(char[][] board) {
-        
-        boolean[][] row = new boolean[9][9];
-        boolean[][] col = new boolean[9][9];
-        boolean[][] box = new boolean[9][9];
-        for(int i = 0;i<board.length;i++){
-            for(int j = 0;j<board[i].length;j++){
-                if(board[i][j]!=','){
-                    int num = board[i][j] - '1';
-                    int boxIndex = (i/3)*3+ j/3;
-                    if(row[i][num]||col[j][num]||box[boxIndex][num]){
-                        return false;
-                    }
-                    row[i][num] = true;
-                    col[j][num] = true;
-                    box[boxIndex][num] = true;
-                }
+    public char findTheDifference(String s, String t) {
+        HashMap<Character,Integer> map_s = new HashMap<>();
+        HashMap<Character,Integer> map_t = new HashMap<>();
+        for(char ch : s.toCharArray()){
+            map_s.put(ch,map_s.getOrDefault(ch,0)+1);
+        }
+        for(char ch : t.toCharArray()){
+            map_t.put(ch,map_t.getOrDefault(ch,0)+1);
+        }
+        for(int i = 0;i<s.length();i++){
+            char ch_s = s.charAt(i);
+            char ch_t = t.charAt(i);
+            if(map_s.get(ch_s)!=map_t.get(ch_t)){
+                return ch_t;
             }
         }
-        return true;
-    }
-    public boolean isValidSudoku1(char[][] board) {
-        Map<Character,Integer> colMap = new HashMap<>();
-        Map<Character,Integer> rowMap = new HashMap<>();
-//        colMap.put(colMap.get)
-        for(int i = 0;i<board.length;i++){
-            for(int j = 0;j<board[i].length;j++){
-                if(rowMap.containsKey(board[i][j])){
-                    return false;
-                }else{
-                    rowMap.put(board[i][j],0);
-                }
-            }
-        }
-        for(int i = 0;i<board[0].length;i++){
-            for(int j = 0;j<board.length;j++){
-                if(colMap.containsKey(board[j][i])){
-                    return false;
-                }else{
-                    colMap.put(board[j][i],0);
-                }
-            }
-        }
-        for(int i = 0;i<board.length;i += 3){
-            for(int j = 0;j<board[i].length;j += 3){
-                if(!check(board,i,j)){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    private boolean check(char[][] board,int col,int row){
-        Map<Character,Integer> map = new HashMap<>();
-        for(int i = row;i<row+3;i++){
-            for(int j = col;j<col+3;j++){
-                if(map.containsKey(board[i][j])){
-                    return false;
-                }else{
-                    map.put(board[i][j],0);
-                }
-            }
-        }
-        return true;
+        return t.charAt(t.length()-1);
     }
 }
