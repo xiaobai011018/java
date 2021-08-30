@@ -1,24 +1,32 @@
 package com.bsc.leetcode;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class Solution {
-    public char findTheDifference(String s, String t) {
-        HashMap<Character,Integer> map_s = new HashMap<>();
-        HashMap<Character,Integer> map_t = new HashMap<>();
-        for(char ch : s.toCharArray()){
-            map_s.put(ch,map_s.getOrDefault(ch,0)+1);
+    int[] pre;
+    public Solution(int[] w) {
+        pre = new int[w.length];
+        pre[0] = w[0];
+        for(int i = 1;i<w.length;i++){
+            pre[i] = pre[i-1] + w[i];
         }
-        for(char ch : t.toCharArray()){
-            map_t.put(ch,map_t.getOrDefault(ch,0)+1);
-        }
-        for(int i = 0;i<s.length();i++){
-            char ch_s = s.charAt(i);
-            char ch_t = t.charAt(i);
-            if(map_s.get(ch_s)!=map_t.get(ch_t)){
-                return ch_t;
+        pickIndex();
+    }
+    public int pickIndex() {
+        int x = (int)(Math.random()*pre[pre.length-1] + 1);
+        return binarySearch(x);
+    }
+    public int binarySearch(int x){
+        int low = 0;
+        int higth = pre.length-1;
+        while(low<higth){
+            int mid = (low+higth)/2;
+            if(pre[mid]<x){
+                low = mid+1;
+            }else{
+                higth = mid-1;
             }
         }
-        return t.charAt(t.length()-1);
+        return low;
     }
 }
