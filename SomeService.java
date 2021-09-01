@@ -1,5 +1,5 @@
-package com.bsc.service;
+package com.bsc.ba01;
 
 public interface SomeService {
-    public void doSome();
+    void doSome(String name,Integer age);
 }
