@@ -1,32 +1,50 @@
 package com.bsc.leetcode;
 
-import java.util.Arrays;
-
 public class Solution {
-    int[] pre;
-    public Solution(int[] w) {
-        pre = new int[w.length];
-        pre[0] = w[0];
-        for(int i = 1;i<w.length;i++){
-            pre[i] = pre[i-1] + w[i];
-        }
-        pickIndex();
-    }
-    public int pickIndex() {
-        int x = (int)(Math.random()*pre[pre.length-1] + 1);
-        return binarySearch(x);
-    }
-    public int binarySearch(int x){
-        int low = 0;
-        int higth = pre.length-1;
-        while(low<higth){
-            int mid = (low+higth)/2;
-            if(pre[mid]<x){
-                low = mid+1;
-            }else{
-                higth = mid-1;
+
+    public static int compareVersion(String version1, String version2) {
+        String[] vs1 = version1.split("\\.");
+        String[] vs2 = version2.split("\\.");
+        int length1 = vs1.length;
+        int length2 = vs2.length;
+        if(length1!=length2){
+            if(length1<length2){
+                for(int i = 0;i<length1;i++){
+                    if(comPare(vs1[i],vs2[i])!=0){
+                        return comPare(vs1[i],vs2[i]);
+                    }
+                }
+                for(int i = length1;i<length2;i++){
+                    if(Integer.parseInt(vs2[i])!=0){
+                        return -Integer.parseInt(vs2[i]);
+                    }
+                }
+                return 0;
+            }
+            if(length1>length2){
+                for(int i = 0;i<length2;i++){
+                    if(comPare(vs1[i],vs2[i])!=0){
+                        return comPare(vs1[i],vs2[i]);
+                    }
+                }
+                for(int i = length2;i<length1;i++){
+                    if(Integer.parseInt(vs1[i])!=0){
+                        return Integer.parseInt(vs1[i]);
+                    }
+                }
+                return 0;
             }
         }
-        return low;
+        for(int i = 0;i<length1;i++){
+            if(comPare(vs1[i],vs2[i])!=0){
+                return comPare(vs1[i],vs2[i]);
+            }
+        }
+        return 0;
+    }
+    public static int comPare(String s1,String s2){
+        int num1 = Integer.parseInt(s1);
+        int num2 = Integer.parseInt(s2);
+        return num1-num2;
     }
 }
