@@ -1,30 +1,26 @@
 package com.bsc.leetcode;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Solution {
-    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital){
-        int n = profits.length;
-        int curr = 0;
-        int[][] arr = new int[n][2];
-        for(int i = 0;i<n;i++){
-            arr[i][0] = capital[i];
-            arr[i][1] = profits[i];
-        }
-        Arrays.sort(arr, (a, b) -> a[0] - b[0]);
-        PriorityQueue<Integer> pq = new PriorityQueue<>((x, y)-> y-x);
-        for(int i = 0;i<k;i++){
-            while(curr<n&&arr[curr][0]<=w){
-                pq.offer(arr[curr][1]);
-                curr++;
-            }
-            if(!pq.isEmpty()){
-                w += pq.poll();
-            }else{
-                break;
+    public static void main(String[] args) {
+        int[] g = {1,2,3};
+        int[] s = {3};
+        Solution solution = new Solution();
+        System.out.println(solution.findContentChildren(g, s));
+    }
+    public int findContentChildren(int[] g, int[] s) {
+        int count = 0;
+        int g_length = g.length;
+        int index =  s.length-1;
+        Arrays.sort(g);
+        Arrays.sort(s);
+        for(int i = g_length-1;i>=0;i--){
+            if(index>=0&&s[index]>=g[i]){
+                count++;
+                index--;
             }
         }
-        return w;
+        return count;
     }
 }
