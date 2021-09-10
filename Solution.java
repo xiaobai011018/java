@@ -1,26 +1,35 @@
 package com.bsc.leetcode;
 
-import java.util.*;
-
 public class Solution {
     public static void main(String[] args) {
-        int[] g = {1,2,3};
-        int[] s = {3};
+        int[] chalk = {5,1,5};
         Solution solution = new Solution();
-        System.out.println(solution.findContentChildren(g, s));
+        System.out.println(solution.chalkReplacer(chalk, 22));
     }
-    public int findContentChildren(int[] g, int[] s) {
-        int count = 0;
-        int g_length = g.length;
-        int index =  s.length-1;
-        Arrays.sort(g);
-        Arrays.sort(s);
-        for(int i = g_length-1;i>=0;i--){
-            if(index>=0&&s[index]>=g[i]){
-                count++;
-                index--;
+    public int chalkReplacer(int[] chalk, int k) {
+        int i = 0;
+        while(k>chalk[0]){
+            for(i=0;i<chalk.length;i++){
+                if(k<chalk[i]){
+                    return i;
+                }
+                k -= chalk[i];
             }
         }
-        return count;
+        return 0;
+    }
+    public int maxSubArray(int[] nums) {
+        int result = Integer.MIN_VALUE;
+        int count = 0;
+        for(int i = 0;i<nums.length;i++){
+            count += nums[i];
+            if (count>result){
+                result = count;
+            }
+            if (result<0){
+                count = 0;
+            }
+        }
+        return result;
     }
 }
