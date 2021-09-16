@@ -1,26 +1,23 @@
 package com.bsc.controller;
 
+import com.bsc.vo.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@RequestMapping(value = "/test")
 public class MyController {
-    @RequestMapping(value = "/some.do",method = RequestMethod.GET)
-    public ModelAndView doSome(){
+    @RequestMapping(value = "/returnstring.do")
+    public String doSome(HttpServletRequest request, String name, int age){
         ModelAndView mv = new ModelAndView();
-        mv.addObject("msg","这是第一个springmvc程序");
-        mv.addObject("func","这是第一个函数");//request.getContext.setAttrubut
-        mv.setViewName("show");//相当于请求转发
-        return mv;
+        request.setAttribute("name",name);
+        request.setAttribute("age",age);
+        return "show";
     }
-    @RequestMapping(value = "/other.do",method = RequestMethod.GET)
-    public ModelAndView doOther(){
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("msg","这是第一个springmvc程序");
-        mv.addObject("func","这是第一个函数");//request.getContext.setAttrubut
-        mv.setViewName("show");//相当于请求转发
-        return mv;
-    }
+
 }
