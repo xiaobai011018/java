@@ -1,26 +1,53 @@
 package com.bsc.leetcode;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Solution {
-    public int findPeakElement(int[] nums) {
-        int left = 0;
-        int right = nums.length-1;
-        while(left<right){
-            int mid = (left+right)>>1;
-            if(nums[mid]>nums[mid+1]){
-                right = mid;
-            }else{
-                left = mid+1;
+    List<String> ans = new ArrayList<>();
+    Set<String> set = new HashSet<>();
+    boolean[][] vis = new boolean[15][15];
+    int[][] dirs = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
+    char[][] board;
+    int m;
+    int n;
+    public List<String> findWords(char[][] board, String[] words) {
+        board = board;
+        m = board.length;
+        n = board[0].length;
+        StringBuilder sb = new StringBuilder();
+        for(String word:words){
+            set.add(word);
+        }
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                vis[i][j] = true;
+                sb.append(board[i][j]);
+                dif(i,j,sb);
+                vis[i][j] = false;
+                sb.deleteCharAt(sb.length()-1);
             }
         }
-        return right;
+        return ans;
     }
-    // public int findPeakElement(int[] nums) {
-    //     int index = 0;
-    //     for(int i = 1;i<nums.length;i++){
-    //         if(nums[i]>nums[index]){
-    //             index = i;
-    //         }
-    //     }
-    //     return index;
-    // }
+    private void dif(int i,int j,StringBuilder sb){
+        if(sb.length()>10) return;
+        if(set.contains(sb.toString())){
+            ans.add(sb.toString());
+            set.remove(sb.toString());
+        }
+        for(int[] d:dirs){
+            int dx = i+ d[0];
+            int dy = j +d[1];
+            if(dx<0||dx>=m||dy<0||dy>=n) continue;
+            if(vis[dx][dy]) continue;
+            vis[dx][dy] = true;
+            sb.append(board[dx][dy]);
+            dif(dx,dy,sb);
+            vis[dx][dy] = false;
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
 }
