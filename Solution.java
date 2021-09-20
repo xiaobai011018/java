@@ -1,53 +1,30 @@
 package com.bsc.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class Solution {
-    List<String> ans = new ArrayList<>();
-    Set<String> set = new HashSet<>();
-    boolean[][] vis = new boolean[15][15];
-    int[][] dirs = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
-    char[][] board;
-    int m;
-    int n;
-    public List<String> findWords(char[][] board, String[] words) {
-        board = board;
-        m = board.length;
-        n = board[0].length;
-        StringBuilder sb = new StringBuilder();
-        for(String word:words){
-            set.add(word);
-        }
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                vis[i][j] = true;
-                sb.append(board[i][j]);
-                dif(i,j,sb);
-                vis[i][j] = false;
-                sb.deleteCharAt(sb.length()-1);
+    public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] count = new int[n];
+        int max = 1;
+        for(int i = 0;i<n;i++){
+            dp[i] = 1;
+            count[i] = 1;
+            for(int j = 0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    if(dp[i]<dp[j]+1){
+                        dp[i] = dp[j] + 1;
+                        count[i] = count[j];
+                    }else if(dp[i] == dp[j]+1){
+                        count[i] += count[j];
+                    }
+                }
+                max = Math.max(max,dp[i]);
             }
         }
+        int ans = 0;
+        for(int i = 0;i<n;i++){
+            if(dp[i]==max) ans += count[i];
+        }
         return ans;
-    }
-    private void dif(int i,int j,StringBuilder sb){
-        if(sb.length()>10) return;
-        if(set.contains(sb.toString())){
-            ans.add(sb.toString());
-            set.remove(sb.toString());
-        }
-        for(int[] d:dirs){
-            int dx = i+ d[0];
-            int dy = j +d[1];
-            if(dx<0||dx>=m||dy<0||dy>=n) continue;
-            if(vis[dx][dy]) continue;
-            vis[dx][dy] = true;
-            sb.append(board[dx][dy]);
-            dif(dx,dy,sb);
-            vis[dx][dy] = false;
-            sb.deleteCharAt(sb.length()-1);
-        }
     }
 }
