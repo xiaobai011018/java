@@ -1,29 +1,20 @@
 package com.bsc.leetcode;
 
 public class Solution {
-    public int findNumberOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        int[] count = new int[n];
-        int max = 1;
-        for(int i = 0;i<n;i++){
-            dp[i] = 1;
-            count[i] = 1;
-            for(int j = 0;j<i;j++){
-                if(nums[i]>nums[j]){
-                    if(dp[i]<dp[j]+1){
-                        dp[i] = dp[j] + 1;
-                        count[i] = count[j];
-                    }else if(dp[i] == dp[j]+1){
-                        count[i] += count[j];
-                    }
-                }
-                max = Math.max(max,dp[i]);
-            }
-        }
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        solution.lengthOfLastWord("   fly me   to   the moon  ");
+    }
+    public int lengthOfLastWord(String s) {
         int ans = 0;
-        for(int i = 0;i<n;i++){
-            if(dp[i]==max) ans += count[i];
+        int i = s.length()-1;
+        while(i>=0&&s.charAt(i)==' ') {
+            i--;
+        }
+        int j = i;
+        while(j>=0&&s.charAt(j)!=' ') {
+            j--;
+            ans++;
         }
         return ans;
     }
