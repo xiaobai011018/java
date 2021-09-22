@@ -1,21 +1,35 @@
 package com.bsc.leetcode;
 
+class ListNode {
+      int val;
+      ListNode next;
+      ListNode() {}
+      ListNode(int val) { this.val = val; }
+      ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+  }
+
 public class Solution {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.lengthOfLastWord("   fly me   to   the moon  ");
-    }
-    public int lengthOfLastWord(String s) {
-        int ans = 0;
-        int i = s.length()-1;
-        while(i>=0&&s.charAt(i)==' ') {
-            i--;
+    public ListNode[] splitListToParts(ListNode head, int k) {
+        int n = 0;
+        ListNode cur = head;
+        while(cur!=null){
+            n++;
+            cur = cur.next;
         }
-        int j = i;
-        while(j>=0&&s.charAt(j)!=' ') {
-            j--;
-            ans++;
+        ListNode[] parts = new ListNode[k];
+        cur = head;
+        int quo = n/k;
+        int red = n%k;
+        for(int i = 0;i<k&&cur!=null;i++){
+            parts[i] = cur;
+            int foot = quo + (i<red?1:0);
+            for(int j = 1;i<foot;j++){
+                cur = cur.next;
+            }
+            ListNode next = cur.next;
+            cur.next = null;
+            cur = next;
         }
-        return ans;
+        return parts;
     }
 }
