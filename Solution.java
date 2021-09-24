@@ -1,19 +1,48 @@
 package com.bsc.leetcode;
-
-public class Solution {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.isPowerOfThree(2147483647));
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+    public Node(Integer val){
+        this.val = val;
     }
-    public boolean isPowerOfThree(int n) {
-        long num = 1;
-        while(num<=n){
-            if(n==num){
-                return true;
+};
+public class Solution {
+    public Node flatten(Node head) {
+        Node dummy = new Node(0);
+        dummy.next = head;
+        while(head!=null){
+            if(head.child==null){
+                head = head.next;
+            }else{
+                Node tmp = head.next;
+                Node chead = flatten(head.child);
+                head.next = chead;
+                chead.prev = head;
+                head.child = null;
+                while(head.next!=null) head = head.next;
+                head.next = tmp;
+                if(tmp != null) tmp.prev = head;
+                head = tmp;
             }
-            num *= 3;
-
         }
-        return false;
+        return dummy.next;
+    }
+    public Node flatten1(Node head) {
+        Node newHead = head;
+        Node newCur = newHead;
+        Node cur = head;
+        if(cur.child!=null){
+            newCur.next = cur;
+            newCur.prev = cur.prev;
+            flatten(cur.child);
+        }
+        if(cur.next!=null){
+            newCur.next = cur;
+            newCur.prev = cur.prev;
+            flatten(cur.next);
+        }
+        return newHead;
     }
 }
