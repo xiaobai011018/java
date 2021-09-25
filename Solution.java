@@ -1,48 +1,22 @@
 package com.bsc.leetcode;
-class Node {
-    public int val;
-    public Node prev;
-    public Node next;
-    public Node child;
-    public Node(Integer val){
-        this.val = val;
-    }
-};
+
 public class Solution {
-    public Node flatten(Node head) {
-        Node dummy = new Node(0);
-        dummy.next = head;
-        while(head!=null){
-            if(head.child==null){
-                head = head.next;
-            }else{
-                Node tmp = head.next;
-                Node chead = flatten(head.child);
-                head.next = chead;
-                chead.prev = head;
-                head.child = null;
-                while(head.next!=null) head = head.next;
-                head.next = tmp;
-                if(tmp != null) tmp.prev = head;
-                head = tmp;
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int[][] dp = new int[n+1][m+1];
+        for(int i = 1;i<=n;i++){
+            char c1 = word1.charAt(i-1);
+            for(int j = 0;j<=m;j++){
+                char c2 = word2.charAt(j-1);
+                if(c1==c2){
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }else{
+                    dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
+                }
             }
         }
-        return dummy.next;
-    }
-    public Node flatten1(Node head) {
-        Node newHead = head;
-        Node newCur = newHead;
-        Node cur = head;
-        if(cur.child!=null){
-            newCur.next = cur;
-            newCur.prev = cur.prev;
-            flatten(cur.child);
-        }
-        if(cur.next!=null){
-            newCur.next = cur;
-            newCur.prev = cur.prev;
-            flatten(cur.next);
-        }
-        return newHead;
+        int maxLength = dp[n][m];
+        return n-maxLength+m-maxLength;
     }
 }
