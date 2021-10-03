@@ -1,51 +1,41 @@
 package com.bsc.leetcode;
 
-import java.util.*;
+import com.sun.xml.internal.bind.v2.model.core.MaybeElement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
-    public static void main(String[] args) {
-//        Queue queue = new PriorityQueue();
-        Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        while (num!=0){
-            System.out.print(num%2);
-            num /= 2;
-        }
-    }
-    public String destCity(List<List<String>> paths) {
-        HashMap<String,String> map = new HashMap<>();
-        for(List<String> s:paths){
-            map.put(s.get(0),s.get(1));
-        }
-        String ans = paths.get(0).get(0);
-        while(map.containsKey(ans)){
-            ans = map.get(ans);
-        }
-        return ans;
-    }
-    public String toHex(int _num) {
-        long v = 0;
-        StringBuffer sb = new StringBuffer();
-        long num = (long)_num;
-        if(num==0) return "0";
-        if(num<0) {
-            num = (long)(Math.pow(2,32)+num);
-        }
-        while(num!=0){
-            v = num%16;
-            char c = (char)(v+'0');
-            if(v>=10){
-                c = (char)(v-10+'a');
-            }
-            sb.append(c);
-            num /= 16;
-        }
-        return sb.reverse().toString();
-    }
-//    public String toHex(int num) {
-//        while (num!=0){
-//            System.out.print(num%2);
-//            num /= 2;
-//        }
+//    public static void main(String[] args) {
+//        double a = 4/333*1.0;
+//        System.out.println(a);
 //    }
+    public String fractionToDecimal(int numerator, int denominator) {
+        long a = numerator;
+        long b = denominator;
+        if (a%b==0){
+            return String.valueOf(a/b);
+        }
+        StringBuilder sb = new StringBuilder();
+        if (a*b<0){
+            sb.append("-");
+            a = Math.abs(a);
+            b = Math.abs(b);
+        }
+        sb.append(a/b);
+        sb.append(".");
+        a %= b;
+        HashMap<Long,Integer> map = new HashMap<>();
+        while (a!=0){
+            map.put(a,sb.length());
+            a *= 10;
+            sb.append(a/b);
+            a %= b;
+            if (map.containsKey(a)){
+                int u = map.get(a);
+                return String.format("%s(%s)",sb.substring(0,u),sb.substring(u));
+            }
+        }
+        return sb.toString();
+    }
 }
