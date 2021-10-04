@@ -1,41 +1,21 @@
 package com.bsc.leetcode;
 
-import com.sun.xml.internal.bind.v2.model.core.MaybeElement;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class Solution {
-//    public static void main(String[] args) {
-//        double a = 4/333*1.0;
-//        System.out.println(a);
-//    }
-    public String fractionToDecimal(int numerator, int denominator) {
-        long a = numerator;
-        long b = denominator;
-        if (a%b==0){
-            return String.valueOf(a/b);
-        }
-        StringBuilder sb = new StringBuilder();
-        if (a*b<0){
-            sb.append("-");
-            a = Math.abs(a);
-            b = Math.abs(b);
-        }
-        sb.append(a/b);
-        sb.append(".");
-        a %= b;
-        HashMap<Long,Integer> map = new HashMap<>();
-        while (a!=0){
-            map.put(a,sb.length());
-            a *= 10;
-            sb.append(a/b);
-            a %= b;
-            if (map.containsKey(a)){
-                int u = map.get(a);
-                return String.format("%s(%s)",sb.substring(0,u),sb.substring(u));
+    public String licenseKeyFormatting(String s, int k) {
+        int cnt = 0;
+        StringBuffer sb = new StringBuffer();
+        for(int i = s.length()-1;i>=0;i--){
+            if(s.charAt(i)!='-'){
+                cnt++;
+                sb.append(Character.toUpperCase(s.charAt(i)));
+                if(cnt%k==0){
+                    sb.append("-");
+                }
             }
         }
-        return sb.toString();
+        if(sb.length()>0&&sb.charAt(sb.length()-1)=='-'){
+            sb.deleteCharAt(sb.length()-1);
+        }
+        return sb.reverse().toString();
     }
 }
