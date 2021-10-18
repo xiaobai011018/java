@@ -1,35 +1,47 @@
 package com.bsc.leetcode;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
-class Solution {
-    List<String> ans = new ArrayList<>();
-    String s;
-    int n, t;
-    public List<String> addOperators(String num, int target) {
-        s = num;
-        n = s.length();
-        t = target;
-        dfs(0, 0, 0, "");
-        return ans;
+class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+          this.right = right;
+      }
+  }
+public class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        def(root,list);
+        Collections.sort(list);
+        return list.get(k-1);
     }
-    void dfs(int u, long prev, long cur, String ss) {
-        if (u == n) {
-            if (cur == t) ans.add(ss);
-            return ;
+    void def(TreeNode node,ArrayList list){
+        if(node==null){
+            return;
         }
-        for (int i = u; i < n; i++) {
-            if (i != u && s.charAt(u) == '0') break;
-            long next = Long.parseLong(s.substring(u, i + 1));
-            if (u == 0) {
-                dfs(i + 1, next, next, "" + next);
-            } else {
-                dfs(i + 1,  next, cur + next, ss + "+" + next);
-                dfs(i + 1, -next, cur - next, ss + "-" + next);
-                long x = prev * next;
-                dfs(i + 1, x, cur - prev + x, ss + "*" + next);
+        list.add(node.val);
+        def(node.left,list);
+        def(node.right,list);
+    }
+    public int findComplement(int num) {
+        int s = -1;
+        for (int i = 31; i >= 0; i--) {
+            if (((num >> i) & 1) != 0) {
+                s = i;
+                break;
             }
         }
+        int ans = 0;
+        for (int i = 0; i < s; i++) {
+            if (((num >> i) & 1) == 0) ans |= (1 << i);
+        }
+        return ans;
     }
 }
