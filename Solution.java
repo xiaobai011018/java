@@ -1,14 +1,17 @@
 package com.bsc.leetcode;
 
-import java.util.Arrays;
-
-class Solution {
-    public int minMoves(int[] nums) {
-        int minNum = Arrays.stream(nums).min().getAsInt();
-        int res = 0;
-        for (int num : nums) {
-            res += num - minNum;
+public class Solution {
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+        for(int i = n-1;i>=0;i--){
+            ++digits[i];
+            digits[i] = digits[i] % 10;
+            if(digits[i]!=0){
+                return digits;
+            }
         }
-        return res;
+        digits = new int[digits.length+1];
+        digits[0] = 1;
+        return digits;
     }
 }
