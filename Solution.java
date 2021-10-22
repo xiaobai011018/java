@@ -1,17 +1,21 @@
 package com.bsc.leetcode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Solution {
-    public int[] plusOne(int[] digits) {
-        int n = digits.length;
-        for(int i = n-1;i>=0;i--){
-            ++digits[i];
-            digits[i] = digits[i] % 10;
-            if(digits[i]!=0){
-                return digits;
+    public List<Integer> majorityElement(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int num:nums){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        List<Integer> list = new ArrayList<>();
+        for(int key:map.keySet()){
+            if(map.get(key)>nums.length/3){
+                list.add(key);
             }
         }
-        digits = new int[digits.length+1];
-        digits[0] = 1;
-        return digits;
+        return list;
     }
 }
