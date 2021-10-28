@@ -1,20 +1,36 @@
 package com.bsc.leetcode;
 
+import java.util.Arrays;
+
 public class Solution {
-    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        int m = nums1.length, n = nums2.length;
-        int[] res = new int[m];
-        for (int i = 0; i < m; ++i) {
-            int j = 0;
-            while (j < n && nums2[j] != nums1[i]) {
-                ++j;
-            }
-            int k = j + 1;
-            while (k < n && nums2[k] < nums2[j]) {
-                ++k;
-            }
-            res[i] = k < n ? nums2[k] : -1;
+    boolean[] vis;
+
+    public boolean reorderedPowerOf2(int n) {
+        char[] nums = Integer.toString(n).toCharArray();
+        Arrays.sort(nums);
+        vis = new boolean[nums.length];
+        return backtrack(nums, 0, 0);
+    }
+
+    public boolean backtrack(char[] nums, int idx, int num) {
+        if (idx == nums.length) {
+            return isPowerOfTwo(num);
         }
-        return res;
+        for (int i = 0; i < nums.length; ++i) {
+            // 不能有前导零
+            if ((num == 0 && nums[i] == '0') || vis[i] || (i > 0 && !vis[i - 1] && nums[i] == nums[i - 1])) {
+                continue;
+            }
+            vis[i] = true;
+            if (backtrack(nums, idx + 1, num * 10 + nums[i] - '0')) {
+                return true;
+            }
+            vis[i] = false;
+        }
+        return false;
+    }
+
+    public boolean isPowerOfTwo(int n) {
+        return (n & (n - 1)) == 0;
     }
 }
