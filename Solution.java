@@ -1,36 +1,21 @@
 package com.bsc.leetcode;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
-    boolean[] vis;
-
-    public boolean reorderedPowerOf2(int n) {
-        char[] nums = Integer.toString(n).toCharArray();
-        Arrays.sort(nums);
-        vis = new boolean[nums.length];
-        return backtrack(nums, 0, 0);
-    }
-
-    public boolean backtrack(char[] nums, int idx, int num) {
-        if (idx == nums.length) {
-            return isPowerOfTwo(num);
+    public int[] singleNumber(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
-        for (int i = 0; i < nums.length; ++i) {
-            // 不能有前导零
-            if ((num == 0 && nums[i] == '0') || vis[i] || (i > 0 && !vis[i - 1] && nums[i] == nums[i - 1])) {
-                continue;
+        int[] ans = new int[2];
+        int index = 0;
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            if (entry.getValue() == 1) {
+                ans[index++] = entry.getKey();
             }
-            vis[i] = true;
-            if (backtrack(nums, idx + 1, num * 10 + nums[i] - '0')) {
-                return true;
-            }
-            vis[i] = false;
         }
-        return false;
-    }
-
-    public boolean isPowerOfTwo(int n) {
-        return (n & (n - 1)) == 0;
+        return ans;
     }
 }
