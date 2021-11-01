@@ -1,21 +1,14 @@
 package com.bsc.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Solution {
-    public int[] singleNumber(int[] nums) {
-        Map<Integer, Integer> freq = new HashMap<Integer, Integer>();
-        for (int num : nums) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
+    public int distributeCandies(int[] candyType) {
+        Set<Integer> set = new HashSet<>();
+        for(int num : candyType){
+            set.add(num);
         }
-        int[] ans = new int[2];
-        int index = 0;
-        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if (entry.getValue() == 1) {
-                ans[index++] = entry.getKey();
-            }
-        }
-        return ans;
+        return Math.min(set.size(),candyType.length/2);
     }
 }
