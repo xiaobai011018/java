@@ -1,14 +1,12 @@
 package com.bsc.leetcode;
-
-import java.util.HashSet;
-import java.util.Set;
-
+   class ListNode {
+      int val;
+      ListNode next;
+      ListNode(int x) { val = x; }
+  }
 public class Solution {
-    public int distributeCandies(int[] candyType) {
-        Set<Integer> set = new HashSet<>();
-        for(int num : candyType){
-            set.add(num);
-        }
-        return Math.min(set.size(),candyType.length/2);
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
     }
 }
