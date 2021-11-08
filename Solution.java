@@ -1,26 +1,33 @@
 package com.bsc.leetcode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Solution {
-    public int maxCount(int m, int n, int[][] ops) {
-        int[][] arr = new int[m][n];
-        Map<Integer,Integer> map = new HashMap<>();
-        for(int[] num:ops){
-            for(int i = 0;i<num[0];i++){
-                for(int j = 0;j<num[1];j++){
-                    arr[i][j] = arr[i][j]+1;
-                }
+    public String getHint(String secret, String guess) {
+        int bullNum = 0;
+        int cowNum = 0;
+        ArrayList<Character> list = new ArrayList<>();
+        String str1 = "";
+        String str2 = "";
+        for(int i = 0;i<secret.length();i++){
+            if (secret.charAt(i)==guess.charAt(i)){
+                bullNum++;
+            }else {
+                str1 += secret.charAt(i);
+                str2 += guess.charAt(i);
             }
         }
-        int ans = -99999;
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                map.put(arr[i][j],map.getOrDefault(arr[i][j],0)+1);
-                ans = Math.max(arr[i][j],ans);
+        for (char ch:str1.toCharArray()){
+            list.add(ch);
+        }
+        for(char ch : str2.toCharArray()){
+            if (list.contains(ch)){
+                cowNum++;
+                list.remove((Character) ch);
             }
         }
-        return map.get(ans);
+        String ans = bullNum+"A"+cowNum+"B";
+        return ans;
     }
 }
