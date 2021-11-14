@@ -1,25 +1,29 @@
 package com.bsc.leetcode;
-class Solution {
-    public int kInversePairs(int n, int k) {
-        final int MOD = 1000000007;
-        int[][] f = new int[2][k + 1];
-        f[0][0] = 1;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 0; j <= k; ++j) {
-                int cur = i & 1, prev = cur ^ 1;
-                f[cur][j] = (j - 1 >= 0 ? f[cur][j - 1] : 0) - (j - i >= 0 ? f[prev][j - i] : 0) + f[prev][j];
-                if (f[cur][j] >= MOD) {
-                    f[cur][j] -= MOD;
-                } else if (f[cur][j] < 0) {
-                    f[cur][j] += MOD;
-                }
+
+public class Solution {
+    public static void main(String[] args) {
+        new Solution().detectCapitalUse("Leetcode");
+    }
+    public boolean detectCapitalUse(String word) {
+        int minCount = 0;
+        int maxCount = 0;
+        char[] chars = word.toCharArray();
+        for (char ch:chars){
+            if (ch-97>=0){
+                minCount++;
+            }else {
+                maxCount++;
             }
         }
-        return f[n & 1][k];
-    }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.kInversePairs(3,4);
+        if (maxCount==word.length()){
+            return true;
+        }
+        if (minCount==word.length()){
+            return true;
+        }
+        if (minCount==word.length()-1&&word.charAt(0)-97<0){
+            return true;
+        }
+        return false;
     }
 }
