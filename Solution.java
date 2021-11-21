@@ -1,11 +1,28 @@
-class Solution {
-    public int integerReplacement(int n) {
-        if (n == 1) {
-            return 0;
+import java.util.Iterator;
+import java.util.List;
+
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+}
+public class Solution {
+    public int maxDepth(Node root) {
+        int ans = 0;
+        Iterator<Node> iterator = root.children.iterator();
+        while (iterator.hasNext()){
+            Node node = iterator.next();
+            
         }
-        if (n % 2 == 0) {
-            return 1 + integerReplacement(n / 2);
-        }
-        return 2 + Math.min(integerReplacement(n / 2), integerReplacement(n / 2 + 1));
     }
 }
