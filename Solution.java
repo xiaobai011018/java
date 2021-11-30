@@ -1,36 +1,13 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class Solution {
-    public List<Integer> findAnagrams(String s, String p) {
-        int sLen = s.length(), pLen = p.length();
-
-        if (sLen < pLen) {
-            return new ArrayList<Integer>();
+ public class Solution {
+    public int findNthDigit(int n) {
+        int len = 1;
+        while (len * 9 * Math.pow(10, len - 1) < n) {
+            n -= len * 9 * Math.pow(10, len - 1);
+            len++;
         }
-
-        List<Integer> ans = new ArrayList<Integer>();
-        int[] sCount = new int[26];
-        int[] pCount = new int[26];
-        for (int i = 0; i < pLen; ++i) {
-            ++sCount[s.charAt(i) - 'a'];
-            ++pCount[p.charAt(i) - 'a'];
-        }
-
-        if (Arrays.equals(sCount, pCount)) {
-            ans.add(0);
-        }
-
-        for (int i = 0; i < sLen - pLen; ++i) {
-            --sCount[s.charAt(i) - 'a'];
-            ++sCount[s.charAt(i + pLen) - 'a'];
-
-            if (Arrays.equals(sCount, pCount)) {
-                ans.add(i + 1);
-            }
-        }
-
-        return ans;
+        long s = (long) Math.pow(10, len - 1);
+        long x = n / len - 1 + s;
+        n -= (x - s + 1) * len;
+        return n == 0 ? (int) (x % 10) : (int) ((x + 1) / Math.pow(10, len - n) % 10);
     }
 }
