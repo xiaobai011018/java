@@ -1,15 +1,17 @@
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class Solution {
-    public int maxPower(String s) {
-        HashMap<Character,Integer> map = new HashMap<>();
-        for (char c:s.toCharArray()){
-            map.put(c,map.getOrDefault(c,0)+1);
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        int sum = 0;
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i]<0&&k!=0){
+                nums[i] = -1 * nums[i];
+                k--;
+            }
+            sum += nums[i];
         }
-        int ans = 0;
-        for (Character ch:map.keySet()){
-            ans = Math.max(ans,map.get(ch));
-        }
-        return ans;
+        Arrays.sort(nums);
+        return sum-(k%2==0?0:nums[0]);
     }
 }
