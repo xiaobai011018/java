@@ -1,22 +1,12 @@
-package 数据结构实验1;
+package 数据结构实验2;
 
 public class Test {
     public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList();
-        linkedList.addTail(3);
-        linkedList.addTail(4);
-        linkedList.addTail(5);
-        linkedList.addTail(6);
-        linkedList.addTail(7);
-//        linkedList.addHead(3);
-//        linkedList.addTail(4);
-//        linkedList.addHead(1);
-//        linkedList.addTail(6);
-        linkedList.display();
-//        System.out.println(linkedList.deleteNode(2));
-//        System.out.println(linkedList.deleteNode(6));
-//        linkedList.display();
-        System.out.println(linkedList.searchNode(7));
-//        System.out.println(linkedList.searchNode());
+        BinaryTree binaryTree = new BinaryTree();
+        int[] nums = {2,4,5,7,1,6,12,32,51,22};
+        binaryTree.create(nums);
+//        binaryTree.preorder(binaryTree.root);
+//        binaryTree.inorder(binaryTree.root);
+        binaryTree.afterOrder(binaryTree.root);
     }
 }
