@@ -1,17 +1,47 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Solution {
-    public int largestSumAfterKNegations(int[] nums, int k) {
-        int sum = 0;
-        Arrays.sort(nums);
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i]<0&&k!=0){
-                nums[i] = -1 * nums[i];
-                k--;
+    public static void main(String[] args) {
+        TopVotedCandidate tp = new TopVotedCandidate(new int[]{0, 1, 1, 0, 0, 1, 0},
+                new int[]{0, 5, 10, 15, 20, 25, 30});
+        tp.q(3);
+    }
+}
+class TopVotedCandidate {
+    List<Integer> tops;
+    Map<Integer,Integer> voteCounts;
+    int[] times;
+    public TopVotedCandidate(int[] persons, int[] times) {
+        tops = new ArrayList<>();
+        voteCounts = new HashMap<>();
+        voteCounts.put(-1,-1);
+        int top = -1;
+        for (int i = 0;i<persons.length;i++){
+            int p = persons[i];
+            voteCounts.put(p,voteCounts.getOrDefault(p,0)+1);
+            if (voteCounts.get(p)>=voteCounts.get(top)){
+                top = p;
             }
-            sum += nums[i];
+            tops.add(top);
         }
-        Arrays.sort(nums);
-        return sum-(k%2==0?0:nums[0]);
+        this.times = times;
+    }
+
+
+    public int q(int t) {
+        int l = 0;
+        int r = times.length-1;
+        while (l<r){
+            int m = l + (r-l+1)/2;
+            if (times[m]<=t){
+                l = m;
+            }else {
+                r = m-1;
+            }
+        }
+        return tops.get(l);
     }
 }
