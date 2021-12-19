@@ -1,69 +1,39 @@
-package com.bsc.test;
+package 比赛;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-
-
-/**
- * 5
- * 1 -2 3 1 5
- * 10
- */
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        sc.nextLine();
         String str = sc.nextLine();
-        String[] arr1 = str.split(" ");
-        int length = arr1.length;
-        int[] arr2 = new int[n];
-        for(int i = 0;i<length;i++){
-            arr2[i] = Integer.valueOf(arr1[i]);
+        int nums = Integer.parseInt(str.split(" ")[0]);
+        int k = Integer.parseInt(str.split(" ")[1]);
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+        for (int i = 0;i<k;i++){
+            lists.add(new ArrayList<>());
         }
-        int ans = -100000;
-        int count = 0;
-        for(int i = 0;i<n;i++){
-            if(arr2[i]<=0){
-                ans = Math.max(ans,count);
-                count = 0;
-                continue;
-            }
-            count += arr2[i];
-        }
-        ans = Math.max(ans,count);
-        System.out.println(ans);
-    }
-    public static void main2(String[] args) {
-        String str = "aba";
-        System.out.println(str.substring(0,0));
-
-    }
-    public static void main1(String[] args){
-        int ans = 0;
-        Scanner sc = new Scanner(System.in);
-        String str1 = sc.next();
-        String str2 = sc.next();
-        int length = str1.length();
-        String ant = "";
-        for(int i = 0;i<length;i++){
-            ant = str1.substring(0,i)+str2+str1.substring(i,length);
-            if(check(ant)){
-                ans++;
+        for (int i = 0;i<nums;i++){
+            String data = sc.nextLine();
+            String[] strs = data.split(" ");
+            int num = Integer.parseInt(strs[0]);
+            if (num==1){
+                int length = strs.length;
+                for (int j = 2;j<length-1;j += 2){
+                    int index = Integer.parseInt(strs[j]);
+                    int val = Integer.parseInt(strs[j+1]);
+                    lists.get(index).add(val);
+                }
+            }else {
+                int ans = 0;
+                for (int value:lists.get(Integer.parseInt(strs[1]))){
+                    if (value>=Integer.parseInt(strs[2])&&value<=Integer.parseInt(strs[3])){
+                        ans++;
+                    }
+                }
+                System.out.println(ans);
             }
         }
-        System.out.println(ans);
-    }
-    public static boolean check(String str){
-        int left = 0;
-        int right = str.length()-1;
-        while(left<right){
-            if(str.charAt(left)!=str.charAt(right)){
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
     }
 }
